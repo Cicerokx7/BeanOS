@@ -14,6 +14,7 @@
 
 
 from functools import cache
+import math
 
 from random import seed
 from random import randint
@@ -99,6 +100,29 @@ def nameTextDisplay(size, text, xLoc, yLoc):
     textFont = pygame.font.Font(None, size)
     titleSurface = textFont.render(text, True, WHITE)
     screen.blit(titleSurface, ((int((Width-textFont.size(text)[0])/2)+xLoc), (int((Height-textFont.size(text)[1])/2)+yLoc)))
+#def loadingCircle(size, xLoc, yLoc, width, percentage):
+def loadingCircle(size, xLoc, yLoc, color, thickness, percentage):
+    pi = math.pi
+    loadingSurface = pygame.Surface((size, size))
+    loadingRectangle = loadingSurface.get_rect(center = (size/2,size/2))
+    # if(percentage <= 1):
+    pygame.draw.arc(loadingSurface, color, loadingRectangle, -(percentage*2*pi-(pi/2)), pi/2, thickness)
+    screen.blit(loadingSurface, ((Width/2)-(size/2)+xLoc,(Height/2)-(size/2)+yLoc))
+    
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.1, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.2, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.3, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.4, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.5, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.6, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.7, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.8, thickness)
+    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.9, thickness)
+   # pygame.draw.arc(screen, WHITE, loadingRectangle, pi/2, pi, thickness)
+    #pygame.draw.arc(screen, ROMANRED, loadingRectangle, pi, pi/2, thickness)
+    #pygame.draw.arc(screen, GallicGold, loadingRectangle, 3*pi/2, 2*pi, thickness)
+    #pygame.draw.arc(screen, GREEKWHITE, loadingRectangle, pi, 3*pi/2, thickness)
+    #screen.blit(loadingSurface, (xLoc,yLoc))
 def appTextDisplay(size, text, xLoc, yLoc):
     textFont = pygame.font.Font(None, size)
     titleSurface = textFont.render(text, True, GREEKWHITE)
@@ -534,6 +558,12 @@ screen = pygame.display.set_mode((Width,Height))
 pygame.display.set_caption('Bean OS0')
 clock = pygame.time.Clock()
 
+
+#######################################################################################
+#                                                                                     #
+#                                    Program Begins                                   #
+#                                                                                     #
+#######################################################################################
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -565,139 +595,157 @@ while True:
             pygame.time.delay(10)
         count = 3
     if(count == 3):
-        #display name
+        # display name
         while(apearX > 0):
             standardSurfaceDisplay()
             apearX -= 30
+            loadingCircle(600, apearX, 0, GallicGold, 50, 0.1)
             nameTextDisplay(NameTextSize, nameText, apearX, 0)
             pygame.display.update()
             pygame.time.delay(10)
+        percentage = 0.001
+        while(percentage < 1):
+            percentage += 0.001
+            # standardSurfaceDisplay()
+            loadingCircle(600, apearX, 0, GallicGold, 50, percentage)
+            nameTextDisplay(NameTextSize, nameText, apearX, 0)
+            pygame.display.update()
+            pygame.time.delay(10)
+        count = 4
     if(count == 4):
-        while(menuX > int(Width/2)):
-            standardSurfaceDisplay()
-            menuX -= 10
-            OrangeMochaFrappechino.location(menuX,menuY)
-            Mocha.location(menuX,(menuY-MenuSizeTwo*2))
-            Latte.location(menuX,(menuY+MenuSizeTwo*2))
-            FlatWhite.location(menuX,(menuY-(MenuSizeTwo+MenuSizeThree)*2))
-            Cappuccino.location(menuX,(menuY+(MenuSizeTwo+MenuSizeThree)*2))
-            Americano.location(menuX,(menuY-(MenuSizeTwo+MenuSizeThree+MenuSizeFour)*2))
-            Black.location(menuX,(menuY+(MenuSizeTwo+MenuSizeThree+MenuSizeFour)*2))
-            TriariiMocha.location(menuX,(menuY-(MenuSizeTwo+MenuSizeThree+MenuSizeFour+MenuSizeFive)*2))
-            PeconPieLatte.location(menuX,(menuY+(MenuSizeTwo+MenuSizeThree+MenuSizeFour+MenuSizeFive)*2))
-            pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
-            pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
-            pygame.time.delay(1)
-            pygame.display.update()
-        while(menuY > (((StandardHeight/2)+AppHeight)-MenuSizeTwo*2)):
-            standardSurfaceDisplay()
-            menuY -= 7
-            if(thyme < 16):
-                OrangeMochaFrappechino.addSize(-SizeChange)
-                Mocha.addSize(-SizeChangeTwo)
-                Latte.addSize(SizeChange)
-                FlatWhite.addSize(-SizeChangeThree)
-                Cappuccino.addSize(SizeChangeTwo)
-                Americano.addSize(-SizeChangeFour)
-                Black.addSize(SizeChangeThree)
-                TriariiMocha.addSize(-SizeChangeFive)
-                PeconPieLatte.addSize(SizeChangeFour)
-                TriariiMochaTwo.addSize(SizeChangeFive)
-                thyme = thyme+1
+        pygame.time.delay(1000)    
+
+
+
+
+
+        #this will be deleted and is currently unused
+    # if(count == 4):
+    #     while(menuX > int(Width/2)):
+    #         standardSurfaceDisplay()
+    #         menuX -= 10
+    #         OrangeMochaFrappechino.location(menuX,menuY)
+    #         Mocha.location(menuX,(menuY-MenuSizeTwo*2))
+    #         Latte.location(menuX,(menuY+MenuSizeTwo*2))
+    #         FlatWhite.location(menuX,(menuY-(MenuSizeTwo+MenuSizeThree)*2))
+    #         Cappuccino.location(menuX,(menuY+(MenuSizeTwo+MenuSizeThree)*2))
+    #         Americano.location(menuX,(menuY-(MenuSizeTwo+MenuSizeThree+MenuSizeFour)*2))
+    #         Black.location(menuX,(menuY+(MenuSizeTwo+MenuSizeThree+MenuSizeFour)*2))
+    #         TriariiMocha.location(menuX,(menuY-(MenuSizeTwo+MenuSizeThree+MenuSizeFour+MenuSizeFive)*2))
+    #         PeconPieLatte.location(menuX,(menuY+(MenuSizeTwo+MenuSizeThree+MenuSizeFour+MenuSizeFive)*2))
+    #         pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
+    #         pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
+    #         pygame.time.delay(1)
+    #         pygame.display.update()
+    #     while(menuY > (((StandardHeight/2)+AppHeight)-MenuSizeTwo*2)):
+    #         standardSurfaceDisplay()
+    #         menuY -= 7
+    #         if(thyme < 16):
+    #             OrangeMochaFrappechino.addSize(-SizeChange)
+    #             Mocha.addSize(-SizeChangeTwo)
+    #             Latte.addSize(SizeChange)
+    #             FlatWhite.addSize(-SizeChangeThree)
+    #             Cappuccino.addSize(SizeChangeTwo)
+    #             Americano.addSize(-SizeChangeFour)
+    #             Black.addSize(SizeChangeThree)
+    #             TriariiMocha.addSize(-SizeChangeFive)
+    #             PeconPieLatte.addSize(SizeChangeFour)
+    #             TriariiMochaTwo.addSize(SizeChangeFive)
+    #             thyme = thyme+1
             
-                #standardSurfaceDisplay()
-            print(thyme)
-            OrangeMochaFrappechino.location(menuX,menuY)
-            Mocha.location(menuX,(menuY-Mocha.size*2))
-            Latte.location(menuX,(menuY+Latte.size*2))
-            FlatWhite.location(menuX,(menuY-(Mocha.size+FlatWhite.size)*2))
-            Cappuccino.location(menuX,(menuY+(Latte.size+Cappuccino.size)*2))
-            Americano.location(menuX,(menuY-(Mocha.size+FlatWhite.size+Americano.size)*2))
-            Black.location(menuX,(menuY+(Latte.size+Cappuccino.size+Black.size)*2))
-            TriariiMocha.location(menuX,(menuY-(Mocha.size+FlatWhite.size+Americano.size+TriariiMocha.size)*2))
-            PeconPieLatte.location(menuX,(menuY+(Latte.size+Cappuccino.size+Black.size+PeconPieLatte.size)*2))
-            TriariiMochaTwo.location(menuX,(menuY+(Cappuccino.size+Black.size+PeconPieLatte.size+TriariiMochaTwo.size)*2))
-            pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
-            pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
-            pygame.time.delay(10)
-            pygame.display.update()
-        count = 5
-    if(count == 5):
-        standardSurfaceDisplay()
-        menuY = (StandardHeight/2)+AppHeight
-        OrangeMochaFrappechino.location(menuX,menuY-OrangeMochaFrappechino.size*2)
-        Mocha.location(menuX,(menuY-(OrangeMochaFrappechino.size+Mocha.size)*2))
-        Latte.location(menuX,menuY)
-        FlatWhite.location(menuX,(menuY-(OrangeMochaFrappechino.size+Mocha.size+FlatWhite.size)*2))
-        Cappuccino.location(menuX,(menuY+Cappuccino.size*2))
-        Americano.location(menuX,(menuY-(OrangeMochaFrappechino.size+Mocha.size+FlatWhite.size+Americano.size)*2))
-        Black.location(menuX,(menuY+(Cappuccino.size+Black.size)*2))
-        PeconPieLatte.location(menuX,(menuY+(Cappuccino.size+Black.size+PeconPieLatte.size)*2))
-        TriariiMochaTwo.location(menuX,(menuY+(Cappuccino.size+Black.size+PeconPieLatte.size+TriariiMochaTwo.size)*2))
-        pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
-        pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
-        pygame.time.delay(10)
-        pygame.display.update()
-        #print(OrangeMochaFrappechino.size)
-        count = 6
-    if(count == 6):
-        standardSurfaceDisplay()
-        disappearTopY = menuY
-        disapearBottomY = menuY
-        i = 0
-        while(MenuSelectionTop > 0):
-            standardSurfaceDisplay()
-            MenuSelectionTop -= 10
-            MenuSelectionBottom += 10
-            OrangeMochaFrappechino.addLocation(0,-10)
-            Mocha.addLocation(0,-10)
-            if(i < 40):
-                Latte.addLocation(0,-7)
-                i += 1
-            Latte.addLocation(0,0)
-            FlatWhite.addLocation(0,-10)
-            Cappuccino.addLocation(0,10)
-            Americano.addLocation(0,-10)
-            Black.addLocation(0,10)
-            PeconPieLatte.addLocation(0,10)
-            TriariiMochaTwo.addLocation(0,10)
-            pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
-            pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
-            appSurfaceDisplay()
-            appTextDisplay(AppTextSize, 'App',0,0)
-            pygame.draw.lines(screen, ROMANRED, False, [(0,AppHeight), (Width,AppHeight)], LineSize)
-            pygame.time.delay(10)
-            pygame.display.update()
-        count = 7
-    if(count == 7):
-        LatteSmall = CoffeeCup()
-        LatteSmall.set(SmallCupHeight,'Small','',0,20,40,40,CHOCOLATE)
-        LatteLarge = LargeCoffeeCup()
-        LatteLarge.set(SmallCupHeight,'Large','',0,20,40,40,CHOCOLATE)
-        SmallCupX = Width
-        SmallCupY = ((StandardHeight-SmallCupHeight)/2)+AppHeight
-        LatteSmall.location(SmallCupX, SmallCupY)
-        LatteLarge.location((SmallCupX+LatteLarge.size),SmallCupY)
-        while(SmallCupX > int((Width-LatteLarge.size)/2)):
-            standardSurfaceDisplay()
-            Latte.addLocation(0,0)
-            SmallCupX -= 10
-            LatteSmall.addLocation(-10,0)
-            LatteLarge.addLocation(-10,0)
-            pygame.display.update()
-            pygame.time.delay(10)
-        count = 8
-    if(count == 8):
-        standardSurfaceDisplay()
-        Latte.addLocation(0,0)
-        if(LatteLarge.x < Width):
-            LatteLarge.addLocation(10, 0)
-        else:
-            count = 9
-        if(LatteSmall.x < (Width/2)):
-            LatteSmall.addLocation(10, 0)
-        else:
-            LatteSmall.display()
-        pygame.time.delay(10)
-        pygame.display.update()
+    #             #standardSurfaceDisplay()
+    #         print(thyme)
+    #         OrangeMochaFrappechino.location(menuX,menuY)
+    #         Mocha.location(menuX,(menuY-Mocha.size*2))
+    #         Latte.location(menuX,(menuY+Latte.size*2))
+    #         FlatWhite.location(menuX,(menuY-(Mocha.size+FlatWhite.size)*2))
+    #         Cappuccino.location(menuX,(menuY+(Latte.size+Cappuccino.size)*2))
+    #         Americano.location(menuX,(menuY-(Mocha.size+FlatWhite.size+Americano.size)*2))
+    #         Black.location(menuX,(menuY+(Latte.size+Cappuccino.size+Black.size)*2))
+    #         TriariiMocha.location(menuX,(menuY-(Mocha.size+FlatWhite.size+Americano.size+TriariiMocha.size)*2))
+    #         PeconPieLatte.location(menuX,(menuY+(Latte.size+Cappuccino.size+Black.size+PeconPieLatte.size)*2))
+    #         TriariiMochaTwo.location(menuX,(menuY+(Cappuccino.size+Black.size+PeconPieLatte.size+TriariiMochaTwo.size)*2))
+    #         pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
+    #         pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
+    #         pygame.time.delay(10)
+    #         pygame.display.update()
+    #     count = 5
+    # if(count == 5):
+    #     standardSurfaceDisplay()
+    #     menuY = (StandardHeight/2)+AppHeight
+    #     OrangeMochaFrappechino.location(menuX,menuY-OrangeMochaFrappechino.size*2)
+    #     Mocha.location(menuX,(menuY-(OrangeMochaFrappechino.size+Mocha.size)*2))
+    #     Latte.location(menuX,menuY)
+    #     FlatWhite.location(menuX,(menuY-(OrangeMochaFrappechino.size+Mocha.size+FlatWhite.size)*2))
+    #     Cappuccino.location(menuX,(menuY+Cappuccino.size*2))
+    #     Americano.location(menuX,(menuY-(OrangeMochaFrappechino.size+Mocha.size+FlatWhite.size+Americano.size)*2))
+    #     Black.location(menuX,(menuY+(Cappuccino.size+Black.size)*2))
+    #     PeconPieLatte.location(menuX,(menuY+(Cappuccino.size+Black.size+PeconPieLatte.size)*2))
+    #     TriariiMochaTwo.location(menuX,(menuY+(Cappuccino.size+Black.size+PeconPieLatte.size+TriariiMochaTwo.size)*2))
+    #     pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
+    #     pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
+    #     pygame.time.delay(10)
+    #     pygame.display.update()
+    #     #print(OrangeMochaFrappechino.size)
+    #     count = 6
+    # if(count == 6):
+    #     standardSurfaceDisplay()
+    #     disappearTopY = menuY
+    #     disapearBottomY = menuY
+    #     i = 0
+    #     while(MenuSelectionTop > 0):
+    #         standardSurfaceDisplay()
+    #         MenuSelectionTop -= 10
+    #         MenuSelectionBottom += 10
+    #         OrangeMochaFrappechino.addLocation(0,-10)
+    #         Mocha.addLocation(0,-10)
+    #         if(i < 40):
+    #             Latte.addLocation(0,-7)
+    #             i += 1
+    #         Latte.addLocation(0,0)
+    #         FlatWhite.addLocation(0,-10)
+    #         Cappuccino.addLocation(0,10)
+    #         Americano.addLocation(0,-10)
+    #         Black.addLocation(0,10)
+    #         PeconPieLatte.addLocation(0,10)
+    #         TriariiMochaTwo.addLocation(0,10)
+    #         pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionTop), (Width,MenuSelectionTop)], LineSize)
+    #         pygame.draw.lines(screen, ROMANRED, False, [(menuX-(Width/2),MenuSelectionBottom), (Width,MenuSelectionBottom)], LineSize)
+    #         appSurfaceDisplay()
+    #         appTextDisplay(AppTextSize, 'App',0,0)
+    #         pygame.draw.lines(screen, ROMANRED, False, [(0,AppHeight), (Width,AppHeight)], LineSize)
+    #         pygame.time.delay(10)
+    #         pygame.display.update()
+    #     count = 7
+    # if(count == 7):
+    #     LatteSmall = CoffeeCup()
+    #     LatteSmall.set(SmallCupHeight,'Small','',0,20,40,40,CHOCOLATE)
+    #     LatteLarge = LargeCoffeeCup()
+    #     LatteLarge.set(SmallCupHeight,'Large','',0,20,40,40,CHOCOLATE)
+    #     SmallCupX = Width
+    #     SmallCupY = ((StandardHeight-SmallCupHeight)/2)+AppHeight
+    #     LatteSmall.location(SmallCupX, SmallCupY)
+    #     LatteLarge.location((SmallCupX+LatteLarge.size),SmallCupY)
+    #     while(SmallCupX > int((Width-LatteLarge.size)/2)):
+    #         standardSurfaceDisplay()
+    #         Latte.addLocation(0,0)
+    #         SmallCupX -= 10
+    #         LatteSmall.addLocation(-10,0)
+    #         LatteLarge.addLocation(-10,0)
+    #         pygame.display.update()
+    #         pygame.time.delay(10)
+    #     count = 8
+    # if(count == 8):
+    #     standardSurfaceDisplay()
+    #     Latte.addLocation(0,0)
+    #     if(LatteLarge.x < Width):
+    #         LatteLarge.addLocation(10, 0)
+    #     else:
+    #         count = 9
+    #     if(LatteSmall.x < (Width/2)):
+    #         LatteSmall.addLocation(10, 0)
+    #     else:
+    #         LatteSmall.display()
+    #     pygame.time.delay(10)
+    #     pygame.display.update()
     clock.tick(60)
