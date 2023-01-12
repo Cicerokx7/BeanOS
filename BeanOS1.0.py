@@ -26,7 +26,8 @@ DEFINITELYBLACK = (0,0,0)
 ROMANRED = (164,14,14)
 GREEKWHITE = (215,232,238)
 SPANISHSILVER = (81,104,111)
-GallicGold = (227, 176, 19)
+ORIENTALGREEN = (77, 144, 20)
+GALLICGOLD = (227, 176, 19)
 YOU = (0,0,255)
 Height = 1011 #703
 Width = 725 #500
@@ -101,28 +102,23 @@ def nameTextDisplay(size, text, xLoc, yLoc):
     titleSurface = textFont.render(text, True, WHITE)
     screen.blit(titleSurface, ((int((Width-textFont.size(text)[0])/2)+xLoc), (int((Height-textFont.size(text)[1])/2)+yLoc)))
 #def loadingCircle(size, xLoc, yLoc, width, percentage):
-def loadingCircle(size, xLoc, yLoc, color, thickness, percentage):
+def circle(size, xLoc, yLoc, color, thickness, percentage):
     pi = math.pi
     loadingSurface = pygame.Surface((size, size))
     loadingRectangle = loadingSurface.get_rect(center = (size/2,size/2))
     # if(percentage <= 1):
     pygame.draw.arc(loadingSurface, color, loadingRectangle, -(percentage*2*pi-(pi/2)), pi/2, thickness)
     screen.blit(loadingSurface, ((Width/2)-(size/2)+xLoc,(Height/2)-(size/2)+yLoc))
-    
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.1, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.2, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.3, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.4, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.5, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.6, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.7, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.8, thickness)
-    # pygame.draw.arc(screen, color, loadingRectangle, 0, (pi/2)-0.9, thickness)
-   # pygame.draw.arc(screen, WHITE, loadingRectangle, pi/2, pi, thickness)
-    #pygame.draw.arc(screen, ROMANRED, loadingRectangle, pi, pi/2, thickness)
-    #pygame.draw.arc(screen, GallicGold, loadingRectangle, 3*pi/2, 2*pi, thickness)
-    #pygame.draw.arc(screen, GREEKWHITE, loadingRectangle, pi, 3*pi/2, thickness)
-    #screen.blit(loadingSurface, (xLoc,yLoc))
+def loadingCircle(size, xLoc, yLoc, color, thickness, nameText, time):
+    percentage = 0.001
+    while(percentage < 1):
+        percentage += 0.001
+        # standardSurfaceDisplay()
+        circle(size, xLoc, yLoc, color, thickness, percentage)
+        nameTextDisplay(NameTextSize, nameText, apearX, 0)
+        pygame.display.update()
+        pygame.time.delay((int)(time/1000))
+
 def appTextDisplay(size, text, xLoc, yLoc):
     textFont = pygame.font.Font(None, size)
     titleSurface = textFont.render(text, True, GREEKWHITE)
@@ -599,21 +595,22 @@ while True:
         while(apearX > 0):
             standardSurfaceDisplay()
             apearX -= 30
-            loadingCircle(600, apearX, 0, GallicGold, 50, 0.1)
+            circle(600, apearX, 0, GALLICGOLD, 50, 0.1)
             nameTextDisplay(NameTextSize, nameText, apearX, 0)
             pygame.display.update()
             pygame.time.delay(10)
         percentage = 0.001
-        while(percentage < 1):
-            percentage += 0.001
-            # standardSurfaceDisplay()
-            loadingCircle(600, apearX, 0, GallicGold, 50, percentage)
+        loadingCircle(600, apearX, 0, GALLICGOLD, 50, nameText, 10000)
+        count = 4
+    if(count == 4):
+        pygame.time.delay(1000)
+        while(apearX > -1000):
+            standardSurfaceDisplay()
+            apearX -= 5
+            circle(600, apearX, 0, ORIENTALGREEN, 50, 1)
             nameTextDisplay(NameTextSize, nameText, apearX, 0)
             pygame.display.update()
             pygame.time.delay(10)
-        count = 4
-    if(count == 4):
-        pygame.time.delay(1000)    
 
 
 
